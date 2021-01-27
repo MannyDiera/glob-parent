@@ -6,7 +6,7 @@ var isWin32 = require('os').platform() === 'win32';
 
 var slash = '/';
 var backslash = /\\/g;
-var enclosure = /[\{\[].*[\/]*.*[\}\]]$/;
+
 var globby = /(^|[^\\])([\{\[]|\([^\)]+$)/;
 var escaped = /\\([\!\*\?\|\[\]\(\)\{\}])/g;
 
@@ -21,11 +21,6 @@ module.exports = function globParent(str, opts) {
   // flip windows path separators
   if (options.flipBackslashes && isWin32 && str.indexOf(slash) < 0) {
     str = str.replace(backslash, slash);
-  }
-
-  // special case for strings ending in enclosure containing path separator
-  if (enclosure.test(str)) {
-    str += slash;
   }
 
   // preserves full path in case of trailing path separator
